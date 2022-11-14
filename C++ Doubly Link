@@ -1,0 +1,295 @@
+/*
+CCC121 Laboratory Exercise No. 1
+Due: November 20, 2022 (Sunday) at 11:55PM
+*/
+
+// This is your first laboratory exercise for this class. This activity covers list ADT, array-based list, linked list, and doubly-linked list.
+
+#include <iostream>
+#include <assert.h>
+
+using namespace std;
+
+/*
+The structure to be used for representing a doubly-linked link. This struct
+declaration should not be modified in any way.
+*/
+template <class E>
+struct DLink
+{
+    E theElement;       // data
+    DLink<E> *nextPtr;  // pointer to next link
+    DLink<E> *prevPtr;  // pointer to previous link
+};
+
+/*
+Complete this implementation variant of the doubly-linked list. Use the same
+convention as described in the slides. The DLink declaration to be used here is
+just a struct and should not be modified in any way. All of the operations of
+the original DLink class must be done in the methods of this class. Use
+assertions to ensure the correct operation of this ADT. All memory allocations
+should be checked with assertions and all discarded memory must be properly
+deallocated.
+*/
+template <class E>
+class DList
+{
+    DLink<E> *head; // pointer to first element of the list
+    DLink<E> *tail; // pointer to last element of the list
+    DLink<E> *curr; // pointer to current element of the list
+    int cnt;        // number of elements in the list
+
+public:
+    // Return the size of the list
+    int length() const
+    {
+        return cnt;
+    }
+
+    // The constructor with initial list size
+    DList(int size)
+    {
+        this();
+    }
+
+    // The default constructor
+    // (CLEARED)
+    DList()
+    {
+        head = new DLink<E>;
+        tail = new DLink<E>;
+        assert(head != nullptr);
+        assert(tail != nullptr)
+        
+        // basta mag ``new`` ka kay mag return man siya ug address, which is ma assign siya sa head na variable. so imong icheck ang head na naa ``address`` na naka assign, na dapat dili siya ``nullptr``
+        
+        // the head should contain an address. so d dapat sya ma nullptr
+        
+        head->nextPtr = tail;
+        head->prevPtr = nullptr;
+        
+        tail->nextPtr = nullptr;
+        tail->prevPtr = head;
+        
+        curr = head;
+        cnt = 0;
+    }
+
+    // The copy constructor
+    // (CLEARED)
+    DList(const DList &source)
+    {
+        head = source->head;
+        tail = source->tail;
+        curr = source->curr;
+        cnt = source->cnt;
+        
+        // The copy constructor is used to initialize the members of a newly created object by copying the members of an already existing object. Copy constructor takes a reference to an object of the same class as an argument
+    }
+
+    // The class destructor
+    ~DList()
+    {
+        clear();
+    }
+
+    // Empty the list
+    void clear()
+    {
+        curr = head;
+        head->nextPtr = tail;
+        cnt = 0;
+
+        while(head != NULL)
+        {
+
+        }
+    }
+
+    // Set current to first element
+    // (CLEARED)
+    void moveToStart()
+    {
+        if(head == NULL)
+        {
+            curr = head->nextPtr;
+        }
+    }
+
+    // Set current element to end of list
+    // (CLEARED)
+    void moveToEnd()
+    {
+        if(tail == NULL)
+        {
+            curr = head->prevPtr;
+        }
+    }
+
+    // Advance current to the next element
+    // (CLEARED)
+    void next()
+    {
+        curr = curr->nextPtr;
+    }
+
+    // Return the current element
+    E & getValue() const
+    {
+        if(curr->nextPtr == tail)
+        {
+            return curr->nextPtr->theElement;
+        }
+    }
+
+    // Insert value at current position
+    void insert(const E &it)
+    {
+         DLink<E> *insertVal = new DLink<E>;
+         curr->nextPtr = insertVal;
+         insertVal->prevPtr = curr;
+         
+         curr = insertVal;
+         insertVal->theElement = it;
+         insertVal->nextPtr = ;
+         insertCurr->prevPtr = prev;
+         cnt++;
+    }
+
+    // Append value at the end of the list
+    void append(const E &it)
+    {
+        DLink<E> *appendValue = new DLink<E>;
+        if(tail != NULL)
+        {
+            appendValue->theElement = it;
+            appendValue->prevPtr = tail;
+            appendValue->nextPtr = NULL;
+            appendValue = tail;
+        }
+        cnt++;
+    }
+
+    // Remove and return the current element
+    E remove()
+    {
+        if(curr->nextPtr != tail)
+        {
+            E it = curr->nextPtr->theElement;
+            DLink<E>* ltemp = curr->nextPtr;
+            curr->nextPtr->nextPtr->prevPtr = curr;
+            curr->nextPtr = curr->nextPtr->nextPtr;
+            delete ltemp;
+            cnt--;
+            return it;
+        }
+    }
+
+    // Advance current to the previous element
+    // (CLEARED)
+    void prev()
+    {
+        curr = curr->prevPtr;
+    }
+
+    // Return position of the current element
+    int currPos() const
+    {
+        DLink<E> *temp = head;
+        int i;
+        for(i=0; curr != temp; i++)
+        {
+            temp = temp->nextPtr;
+        }
+        return i;
+    }
+
+    // Set current to the element at the given position
+    void moveToPos(int pos)
+    {
+        assert((pos>=0) && (pos<=cnt));
+        curr = head;
+        for(int i = 0; i<pos; i++)
+        {
+            curr = curr->nextPtr;
+        }
+    }
+};
+
+/*
+This is the main function for testing the implementation of the DList class.
+This function can be freely modified.
+*/
+int main(void)
+{
+    int i;
+    DList<int> theList;
+
+    // populate the list
+    for (i = 0; i < 10; ++i)
+    {
+        theList.append(i);
+    }
+    while (i < 20)
+    {
+        theList.insert(i);
+
+        ++i;
+    }
+
+    // display the contents of the list
+    theList.moveToStart();
+    for (i = 0; i < theList.length(); ++i)
+    {
+        cout << theList.getValue() << " ";
+
+        theList.next();
+    }
+    cout << "\n";
+
+    // display the contents of the list in reverse order
+    theList.moveToEnd();
+    for (i = 0; i < theList.length(); ++i)
+    {
+        theList.prev();
+
+        cout << theList.getValue() << " ";
+    }
+    cout << "\n";
+
+    // replace the contents of the list
+    theList.clear();
+    for (i = 0; i < 10; ++i)
+    {
+        theList.append(i + 100);
+    }
+
+    // display the contents of the list
+    theList.moveToStart();
+    for (i = 0; i < theList.length(); ++i)
+    {
+        cout << theList.getValue() << " ";
+
+        theList.next();
+    }
+    cout << "\n";
+
+    // remove two elements at the specified position
+    theList.moveToPos(5);
+    cout << theList.currPos() << "\n";
+
+    theList.remove();
+    theList.remove();
+
+    // display the contents of the list
+    theList.moveToStart();
+    for (i = 0; i < theList.length(); ++i)
+    {
+        cout << theList.getValue() << " ";
+
+        theList.next();
+    }
+    cout << "\n";
+
+    return 0;
+}
