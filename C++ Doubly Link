@@ -71,7 +71,7 @@ public:
         tail->nextPtr = nullptr;
         tail->prevPtr = head;
 
-        curr = head;
+        curr = tail;
         cnt = 0;
     }
 
@@ -96,7 +96,7 @@ public:
     // Empty the list
     void clear()
     {
-        curr = head;
+        curr = tail;
         head->nextPtr = tail;
         cnt = 0;
 
@@ -122,7 +122,7 @@ public:
     {
         if(tail == NULL)
         {
-            curr = head->prevPtr;
+            curr = tail->prevPtr;
         }
     }
 
@@ -131,35 +131,44 @@ public:
     void next()
     {
         curr = curr->nextPtr;
+
+        /*if(curr != tail) {
+        curr = curr->nextPtr;
+        } */
     }
 
     // Return the current element
     E & getValue() const
     {
-        if(curr->nextPtr == tail)
-        {
-            return curr->nextPtr->theElement;
-        }
+        assert(curr->nextPtr != NULL) // a reference that points, generally intentionally, to a nonexistent or invalid object or address
+        // (meaning ang next pointer sa current kay wala syay reference sa nonexistent address0
+        cout << "Nothing to get" << endl;
+        return curr->nextPtr->theElement;
     }
 
     // Insert value at current position
+    // (DOUBLE CHECK) - Answered but needs to be reviewed
     void insert(const E &it)
     {
          DLink<E> *insertVal = new DLink<E>;
-         assert(insertVal != nullptr)
-         insertVal->theElement = it;
-         insertVal->nextPtr = curr->nextPtr;
-         insertVal->prevPtr = curr;
-         curr->nextPtr = insertVal;
-         curr->nextPtr->prevPtr = insertVal;
-         
-         curr->nextPtr = insertVal;
-         insertVal->prevPtr = curr;
+         assert(insertVal != nullptr);
+         insertVal->theElement = it;    // 1 Assign element it
 
+         // 2 nextPtr of insertVal is the current link
+         insertVal->nextPtr = curr;
+
+         // 3 prevPtr of insertVal is the current link's pointer (prevPtr)
+         insertVal->prevPtr = curr->prevPtr;
+
+         // 4 curr prevPtr's nextPtr is insertVal
+         curr->prevPtr->nextPtr = insertVal;
+
+         // 5 curr's prevPtr is set to insertval
+         curr->prevPtr = insertVal;
+
+         // 6 set insertVal as new curr
          curr = insertVal;
-         insertVal->theElement = it;
-         insertVal->nextPtr = ;
-         insertCurr->prevPtr = prev;
+
          cnt++;
     }
 
@@ -175,6 +184,8 @@ public:
             appendValue = tail;
         }
         cnt++;
+
+
     }
 
     // Remove and return the current element
@@ -222,6 +233,8 @@ public:
         }
     }
 };
+
+// curr pointer mag point sya sa link before the current link
 
 /*
 This is the main function for testing the implementation of the DList class.
