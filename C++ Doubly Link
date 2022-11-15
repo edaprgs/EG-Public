@@ -59,18 +59,18 @@ public:
         head = new DLink<E>;
         tail = new DLink<E>;
         assert(head != nullptr);
-        assert(tail != nullptr)
-        
+        assert(tail != nullptr);
+
         // basta mag ``new`` ka kay mag return man siya ug address, which is ma assign siya sa head na variable. so imong icheck ang head na naa ``address`` na naka assign, na dapat dili siya ``nullptr``
-        
+
         // the head should contain an address. so d dapat sya ma nullptr
-        
+
         head->nextPtr = tail;
         head->prevPtr = nullptr;
-        
+
         tail->nextPtr = nullptr;
         tail->prevPtr = head;
-        
+
         curr = head;
         cnt = 0;
     }
@@ -83,7 +83,7 @@ public:
         tail = source->tail;
         curr = source->curr;
         cnt = source->cnt;
-        
+
         // The copy constructor is used to initialize the members of a newly created object by copying the members of an already existing object. Copy constructor takes a reference to an object of the same class as an argument
     }
 
@@ -146,9 +146,16 @@ public:
     void insert(const E &it)
     {
          DLink<E> *insertVal = new DLink<E>;
+         assert(insertVal != nullptr)
+         insertVal->theElement = it;
+         insertVal->nextPtr = curr->nextPtr;
+         insertVal->prevPtr = curr;
+         curr->nextPtr = insertVal;
+         curr->nextPtr->prevPtr = insertVal;
+         
          curr->nextPtr = insertVal;
          insertVal->prevPtr = curr;
-         
+
          curr = insertVal;
          insertVal->theElement = it;
          insertVal->nextPtr = ;
