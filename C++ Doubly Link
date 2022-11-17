@@ -53,7 +53,7 @@ public:
     }
 
     // The default constructor
-    // (CLEARED)
+    // (Done-Add Comments)
     DList()
     {
         head = new DLink<E>;
@@ -76,7 +76,7 @@ public:
     }
 
     // The copy constructor
-    // (CLEARED)
+    // (Done-Add Comments)
     DList(const DList &source)
     {
         head = source->head;
@@ -107,7 +107,7 @@ public:
     }
 
     // Set current to first element
-    // (CLEARED)
+    // (Done-Add Comments)
     void moveToStart()
     {
         if(head == NULL)
@@ -117,7 +117,7 @@ public:
     }
 
     // Set current element to end of list
-    // (CLEARED)
+    // (Done-Add Comments)
     void moveToEnd()
     {
         if(tail == NULL)
@@ -127,7 +127,7 @@ public:
     }
 
     // Advance current to the next element
-    // (CLEARED)
+    // (Done-Add Comments)
     void next()
     {
         curr = curr->nextPtr;
@@ -138,60 +138,79 @@ public:
     }
 
     // Return the current element
+    // review
     E & getValue() const
     {
         assert(curr->nextPtr != NULL) // a reference that points, generally intentionally, to a nonexistent or invalid object or address
         // (meaning ang next pointer sa current kay wala syay reference sa nonexistent address0
-        cout << "Nothing to get" << endl;
+        // cout << "Nothing to get" << endl;
         return curr->nextPtr->theElement;
     }
 
     // Insert value at current position
-    // (DOUBLE CHECK) - Answered but needs to be reviewed
+    // review 
     void insert(const E &it)
-    {
+    {    
+         // create a new link to insert
          DLink<E> *insertVal = new DLink<E>;
          assert(insertVal != nullptr);
-         insertVal->theElement = it;    // 1 Assign element it
-
-         // 2 nextPtr of insertVal is the current link
+         
+         // assign 'it' value to the newlink 
+         insertVal->theElement = it;
+         
+         // to set nextptr of insertVal
          insertVal->nextPtr = curr;
-
-         // 3 prevPtr of insertVal is the current link's pointer (prevPtr)
-         insertVal->prevPtr = curr->prevPtr;
-
-         // 4 curr prevPtr's nextPtr is insertVal
-         curr->prevPtr->nextPtr = insertVal;
-
-         // 5 curr's prevPtr is set to insertval
-         curr->prevPtr = insertVal;
-
-         // 6 set insertVal as new curr
+         
+         // to set prevPtr of insertVal
+         insertVal->prevPtr = curr->nextPtr->prevPtr;
+         
+         // to set the prevPtr of curr link to insertVal
+         curr->nextPtr->prevPtr = insertVal;
+         
+         // to set nextPtr of curr ptr to insertVal
+         curr->nextPtr = insertVal;
+         
+         // to assign curr link to insertVal
          curr = insertVal;
-
+         
+         // to increment cnt 
          cnt++;
     }
 
     // Append value at the end of the list
+    // review
     void append(const E &it)
     {
+        // create a new link to append
         DLink<E> *appendValue = new DLink<E>;
-        if(tail != NULL)
-        {
-            appendValue->theElement = it;
-            appendValue->prevPtr = tail;
-            appendValue->nextPtr = NULL;
-            appendValue = tail;
-        }
+        assert(appendValue != nullptr);
+        
+        // assign 'it' value to the newlink
+        appendValue->theElement = it;
+        
+        // set the nextptr of appended value to tail
+        appendValue->nextPtr = tail;
+        
+        // set the prevPtr of appended value to tail's prevPtr
+        appendValue->prevPtr = tail->prevPtr;
+        
+        // set the nextPtr of the tail's prevPtr to appendValue
+        tail->prevPtr->nextPtr = appendValue;
+        
+        // to set the prevPtr of tail to appendValue
+        tail->prevPtr = appendValue;
+        
         cnt++;
-
-
     }
 
     // Remove and return the current element
     E remove()
     {
-        if(curr->nextPtr != tail)
+        if(curr->nextPtr == tail)
+        {
+            return nullptr;
+        }
+        else
         {
             E it = curr->nextPtr->theElement;
             DLink<E>* ltemp = curr->nextPtr;
@@ -204,7 +223,7 @@ public:
     }
 
     // Advance current to the previous element
-    // (CLEARED)
+    // (Done-Add Comments)
     void prev()
     {
         curr = curr->prevPtr;
