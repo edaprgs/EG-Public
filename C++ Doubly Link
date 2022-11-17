@@ -110,20 +110,14 @@ public:
     // (Done-Add Comments)
     void moveToStart()
     {
-        if(head == NULL)
-        {
             curr = head->nextPtr;
-        }
     }
 
     // Set current element to end of list
     // (Done-Add Comments)
     void moveToEnd()
     {
-        if(tail == NULL)
-        {
             curr = tail->prevPtr;
-        }
     }
 
     // Advance current to the next element
@@ -131,10 +125,6 @@ public:
     void next()
     {
         curr = curr->nextPtr;
-
-        /*if(curr != tail) {
-        curr = curr->nextPtr;
-        } */
     }
 
     // Return the current element
@@ -148,32 +138,32 @@ public:
     }
 
     // Insert value at current position
-    // review 
+    // review
     void insert(const E &it)
-    {    
+    {
          // create a new link to insert
          DLink<E> *insertVal = new DLink<E>;
          assert(insertVal != nullptr);
-         
-         // assign 'it' value to the newlink 
+
+         // assign 'it' value to the newlink
          insertVal->theElement = it;
-         
+
          // to set nextptr of insertVal
          insertVal->nextPtr = curr;
-         
+
          // to set prevPtr of insertVal
          insertVal->prevPtr = curr->nextPtr->prevPtr;
-         
+
          // to set the prevPtr of curr link to insertVal
          curr->nextPtr->prevPtr = insertVal;
-         
+
          // to set nextPtr of curr ptr to insertVal
          curr->nextPtr = insertVal;
-         
+
          // to assign curr link to insertVal
          curr = insertVal;
-         
-         // to increment cnt 
+
+         // to increment cnt
          cnt++;
     }
 
@@ -184,42 +174,39 @@ public:
         // create a new link to append
         DLink<E> *appendValue = new DLink<E>;
         assert(appendValue != nullptr);
-        
+
         // assign 'it' value to the newlink
         appendValue->theElement = it;
-        
+
         // set the nextptr of appended value to tail
         appendValue->nextPtr = tail;
-        
+
         // set the prevPtr of appended value to tail's prevPtr
         appendValue->prevPtr = tail->prevPtr;
-        
+
         // set the nextPtr of the tail's prevPtr to appendValue
         tail->prevPtr->nextPtr = appendValue;
-        
+
         // to set the prevPtr of tail to appendValue
         tail->prevPtr = appendValue;
-        
+
         cnt++;
     }
 
     // Remove and return the current element
+    // review
     E remove()
     {
-        if(curr->nextPtr == tail)
-        {
-            return nullptr;
-        }
-        else
-        {
-            E it = curr->nextPtr->theElement;
-            DLink<E>* ltemp = curr->nextPtr;
-            curr->nextPtr->nextPtr->prevPtr = curr;
-            curr->nextPtr = curr->nextPtr->nextPtr;
-            delete ltemp;
-            cnt--;
-            return it;
-        }
+        if(curr->nextPtr == tail) return nullptr;
+
+        E it = curr->nextPtr->theElement;
+        DLink<E>* ltemp = curr->nextPtr;
+        curr->nextPtr->nextPtr->prevPtr = curr;
+        curr->nextPtr = curr->nextPtr->nextPtr;
+        delete ltemp;
+        cnt--;
+
+        return it;
     }
 
     // Advance current to the previous element
