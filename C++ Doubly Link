@@ -141,9 +141,9 @@ public:
     // review
     E & getValue() const
     {
-        assert(curr->nextPtr != NULL) // a reference that points, generally intentionally, to a nonexistent or invalid object or address
-        // (meaning ang next pointer sa current kay wala syay reference sa nonexistent address0
-        // cout << "Nothing to get" << endl;
+        // a reference that points, generally intentionally, to a nonexistent or invalid object or address
+        // (meaning ang next pointer sa current kay wala syay reference sa nonexistent address)
+        assert(curr->nextPtr != NULL) ? "Nothing to get";
         return curr->nextPtr->theElement;
     }
 
