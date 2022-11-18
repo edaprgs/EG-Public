@@ -68,7 +68,7 @@ public:
         tail->prevPtr = head;       // set the prevPtr of tail to head
         tail->nextPtr = nullptr;    // set the nextPtr of tail to nullptr
         
-        curr = tail;                // assign curr link to tail
+        curr = head;                // assign curr link to tail
         cnt = 0;                    // set cnt to zero
     }
 
@@ -80,14 +80,6 @@ public:
         tail = source->tail;
         curr = source->curr;
         cnt = source->cnt;
-
-        head->prevPtr = nullptr;    // set the prevPtr of head to nullptr
-        head->nextPtr = tail;       // set the nextPtr of head to tail
-        
-        tail->prevPtr = head;       // set the prevPtr of tail to head
-        tail->nextPtr = nullptr;    // set the nextPtr of tail to nullptr
-
-        cnt = 0;                    // set cnt to zero
     }
 
     // REVIEW and REVISE
