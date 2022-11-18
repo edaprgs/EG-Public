@@ -62,12 +62,12 @@ public:
         tail = new DLink<E>;        // allocating memory space for tail ptr
         assert(tail != nullptr);    // to check if the allocated tail ptr contains an address
 
-        head->nextPtr = tail;       // set the nextPtr of head to tail
         head->prevPtr = nullptr;    // set the prevPtr of head to nullptr
-
-        tail->nextPtr = nullptr;    // set the nextPtr of tail to nullptr
+        head->nextPtr = tail;       // set the nextPtr of head to tail
+        
         tail->prevPtr = head;       // set the prevPtr of tail to head
-
+        tail->nextPtr = nullptr;    // set the nextPtr of tail to nullptr
+        
         curr = tail;                // assign curr link to tail
         cnt = 0;                    // set cnt to zero
     }
@@ -81,11 +81,11 @@ public:
         curr = source->curr;
         cnt = source->cnt;
 
-        head->nextPtr = tail;       // set the nextPtr of head to tail
         head->prevPtr = nullptr;    // set the prevPtr of head to nullptr
-
-        tail->nextPtr = nullptr;    // set the nextPtr of tail to nullptr
+        head->nextPtr = tail;       // set the nextPtr of head to tail
+        
         tail->prevPtr = head;       // set the prevPtr of tail to head
+        tail->nextPtr = nullptr;    // set the nextPtr of tail to nullptr
 
         cnt = 0;                    // set cnt to zero
     }
