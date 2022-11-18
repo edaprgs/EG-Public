@@ -87,9 +87,6 @@ public:
     ~DList()
     {
         clear();
-
-        delete head;
-        delete tail;
     }
 
     // REVIEW and REVISE
@@ -98,24 +95,34 @@ public:
     {
         moveToStart();                    
 
-        DLink<E> *temp = nullptr;           
-        while(curr != tail)
+        while(curr != nullptr)
         {
-            temp = curr->nextPtr;
+            DLink<E> *temp = curr->nextPtr;
             delete curr;
-            curr = temp;
-        }
-        curr = tail;
-        head->nextPtr = tail;
-        tail->prevPtr = head;
-        cnt = 0;
+            curr = temp; 
+        }    
+
+        head = new DLink<E>;     
+        assert(head != nullptr);    
+
+        tail = new DLink<E>;        
+        assert(tail != nullptr);    
+
+        head->prevPtr = nullptr;    
+        head->nextPtr = tail;      
+        
+        tail->prevPtr = head;       
+        tail->nextPtr = nullptr;    
+        
+        curr = head;               
+        cnt = 0;  
     }
 
     // DONE - NEEDS TO BE POLISHED
     // Set current to first element
     void moveToStart()
     {
-        curr = head->nextPtr;
+        curr = head;
     }
 
     // DONE - NEEDS TO BE POLISHED
@@ -256,7 +263,9 @@ int main(void)
 
         ++i;
     }
-
+    
+    cout << "Display the list in normal order: \n";
+    
     // display the contents of the list
     theList.moveToStart();
     for (i = 0; i < theList.length(); ++i)
@@ -265,7 +274,9 @@ int main(void)
 
         theList.next();
     }
-    cout << "\n";
+    cout << "\n\n";
+    
+    cout << "Display the list in reverse order: \n";
 
     // display the contents of the list in reverse order
     theList.moveToEnd();
@@ -275,7 +286,7 @@ int main(void)
 
         cout << theList.getValue() << " ";
     }
-    cout << "\n";
+    cout << "\n\n";
 
     // replace the contents of the list
     theList.clear();
