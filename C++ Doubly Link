@@ -56,20 +56,20 @@ public:
     // The default constructor
     DList()
     {
-        head = new DLink<E>;        // allocating memory space for head ptr
-        assert(head != nullptr);    // to check if the allocated head ptr contains an address
+        head = new DLink<E>;     
+        assert(head != nullptr);    
 
-        tail = new DLink<E>;        // allocating memory space for tail ptr
-        assert(tail != nullptr);    // to check if the allocated tail ptr contains an address
+        tail = new DLink<E>;        
+        assert(tail != nullptr);    
 
-        head->prevPtr = nullptr;    // set the prevPtr of head to nullptr
-        head->nextPtr = tail;       // set the nextPtr of head to tail
+        head->prevPtr = nullptr;    
+        head->nextPtr = tail;      
         
-        tail->prevPtr = head;       // set the prevPtr of tail to head
-        tail->nextPtr = nullptr;    // set the nextPtr of tail to nullptr
+        tail->prevPtr = head;       
+        tail->nextPtr = nullptr;    
         
-        curr = head;                // assign curr link to tail
-        cnt = 0;                    // set cnt to zero
+        curr = head;               
+        cnt = 0;                 
     }
 
     // REVIEW and REVISE
@@ -96,9 +96,9 @@ public:
     // Empty the list
     void clear()
     {
-        moveToStart();                                  // to start from emptying the list from the curr link
+        moveToStart();                    
 
-        DLink<E> *temp = nullptr;                       //
+        DLink<E> *temp = nullptr;           
         while(curr != tail)
         {
             temp = curr->nextPtr;
@@ -136,11 +136,8 @@ public:
     // Return the current element
     E & getValue() const
     {
-        // to check if the curr link contains an element and
-        // if the condition is false an expression is executed
         assert(curr->nextPtr != nullptr);
 
-        // return the element of the curr link
         return curr->nextPtr->theElement;
     }
 
@@ -148,42 +145,35 @@ public:
     // Insert value at current position
     void insert(const E &it)
     {
-         DLink<E> *insertVal = new DLink<E>;            // create a link to insert
-         assert(insertVal != nullptr);                  // to check if the allocated insertVal ptr contains an address
+         DLink<E> *insertVal = new DLink<E>;       
+         assert(insertVal != nullptr);    
 
-         insertVal->theElement = it;                    // assign 'it' value to the inserted link ptr
+         insertVal->theElement = it;  
+        
+         insertVal->prevPtr = curr;                          
+         insertVal->nextPtr = curr->nextPtr;       
+         
+         curr->nextPtr->prevPtr = insertVal;            
 
-         insertVal->nextPtr = curr;                     // to set nextptr of insertVal to curr link
-
-         insertVal->prevPtr = curr->nextPtr->prevPtr;   // to set prevPtr of insertVal to curr ptr
-
-         curr->nextPtr->prevPtr = insertVal;            // to set the prevPtr of curr link to insertVal
-
-         curr->nextPtr = insertVal;                     // to set nextPtr of curr ptr to insertVal
-
-         curr = insertVal;                              // to assign curr link to insertVal
-
-         cnt++;                                         // to increment cnt
+         curr->nextPtr = insertVal;                    
+         cnt++;                          
     }
 
     // DONE - NEEDS TO BE POLISHED
     // Append value at the end of the list
     void append(const E &it)
     {
-        DLink<E> *appendValue = new DLink<E>;           // create a link to append
-        assert(appendValue != nullptr);                 // to check if the allocated appendValue ptr contains an address
-
-        appendValue->theElement = it;                   // assign 'it' value to the appendValue ptr
-
-        appendValue->nextPtr = tail;                    // set the nextptr of the appended value to tail
-
-        appendValue->prevPtr = tail->prevPtr;           // set the prevPtr of the appended value to tail's prevPtr
-
-        tail->prevPtr->nextPtr = appendValue;           // set the nextPtr of the tail's prevPtr to appendValue ptr
-
-        tail->prevPtr = appendValue;                    // to set the prevPtr of tail to appendValue
-
-        cnt++;                                          // increment cnt
+        DLink<E> *appendValue = new DLink<E>;         
+        assert(appendValue != nullptr);                 
+        appendValue->theElement = it;             
+        appendValue->prevPtr = tail->prevPtr;
+                  
+        appendValue->nextPtr = tail;    
+        
+        tail->prevPtr->nextPtr = appendValue;           
+        
+        tail->prevPtr = appendValue;                  
+        cnt++;                            
     }
 
     // DONE - NEEDS TO BE POLISHED
@@ -192,30 +182,26 @@ public:
     {
         if(curr->nextPtr == tail)
         {
-            return NULL;                                // nothing to remove
+            return NULL;                  
         }
 
-        E it = curr->nextPtr->theElement;               // to remember the curr link's element
+        E it = curr->nextPtr->theElement;               
+        DLink<E>* ltemp = curr->nextPtr;  
+        assert(ltemp != nullptr);         
 
-        DLink<E>* ltemp = curr->nextPtr;                // sets a temporary pointer to the link that will be removed
-        assert(ltemp != nullptr);                       // to check if the allocated ltemp ptr contains an address
-
-        curr->nextPtr->nextPtr->prevPtr = curr;         // makes the curr link's nextPtr's prevPtr points to the curr link that will be removed
-
-        curr->nextPtr = curr->nextPtr->nextPtr;         // before deleting the ltemp pointer, we set the currPtr's nextPtr to the nextPtr of the curr link
-
-        delete ltemp;                                   // to remove the curr element that is stored in ltemp ptr
-
-        cnt--;                                          // decrement cnt
-
-        return it;                                      // to return the current element
+        curr->nextPtr->nextPtr->prevPtr = curr;         
+        curr->nextPtr = curr->nextPtr->nextPtr;         
+        
+        delete ltemp;                                  
+        cnt--;                                          
+        return it;                        
     }
 
     // DONE - NEEDS TO BE POLISHED
     // Advance current to the previous element
     void prev()
     {
-        if(curr != head)                                // can't back up from list head
+        if(curr != head)                  
         {
             curr = curr->prevPtr;
         }
@@ -225,21 +211,21 @@ public:
     // Return position of the current element
     int currPos() const
     {
-        DLink<E> *temp = head->nextPtr;                 // create a temp ptr to assign the nextPtr of head
+        DLink<E> *temp = head->nextPtr;   
 
         int i;
         for(i=0; temp != curr; i++)
         {
             temp = temp->nextPtr;
         }
-        return i;                                       // return the position of curr link
+        return i;                        
     }
 
     // DONE - NEEDS TO BE POLISHED
     // Set current to the element at the given position
     void moveToPos(int pos)
     {
-        assert((pos>=0) && (pos<=cnt));                 // to check if the position is in the range of cnt
+        assert((pos>=0) && (pos<=cnt));             
         curr = head->nextPtr;
 
         int i;
