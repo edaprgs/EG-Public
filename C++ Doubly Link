@@ -34,10 +34,10 @@ deallocated.
 template <class E>
 class DList
 {
-    DLink<E> *head; // pointer to first element of the list
-    DLink<E> *tail; // pointer to last element of the list
-    DLink<E> *curr; // pointer to current element of the list
-    int cnt;        // number of elements in the list
+    DLink<E> *head; 
+    DLink<E> *tail; 
+    DLink<E> *curr; 
+    int cnt;        
 
 public:
     // Return the size of the list
