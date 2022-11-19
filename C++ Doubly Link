@@ -150,11 +150,13 @@ public:
          insertVal->theElement = it;
 
          insertVal->prevPtr = curr;
+         
          insertVal->nextPtr = curr->nextPtr;
 
          curr->nextPtr->prevPtr = insertVal;
 
          curr->nextPtr = insertVal;
+         
          cnt++;
     }
 
@@ -178,11 +180,11 @@ public:
     E remove()
     {
         E it = curr->nextPtr->theElement;
-
+       
         DLink<E>* ltemp = curr->nextPtr;
-        assert(ltemp != nullptr);
 
         curr->nextPtr->nextPtr->prevPtr = curr;
+       
         curr->nextPtr = curr->nextPtr->nextPtr;
 
         delete ltemp;
@@ -202,6 +204,7 @@ public:
     // Return position of the current element
     int currPos() const
     {
+        assert((curr != NULL) && (cnt>0));
         DLink<E> *temp = head->nextPtr;
 
         int i;
@@ -216,10 +219,9 @@ public:
     void moveToPos(int pos)
     {
         assert((pos>0) && (pos<=cnt));
-        curr = head;
-
+        curr = head->nextPtr;
         int i;
-        for(i=0; i<=pos; i++)
+        for(i=0; i<pos; i++)
         {
             curr = curr->nextPtr;
         }
@@ -253,7 +255,7 @@ int main(void)
     theList.moveToStart();
     for (i = 0; i < theList.length(); ++i)
     {
-        cout << theList.getValue() << " ";
+        cout << theList.getValue() << "  ";
 
         theList.next();
     }
@@ -267,11 +269,11 @@ int main(void)
     {
         theList.prev();
 
-        cout << theList.getValue() << " ";
+        cout << theList.getValue() << "  ";
     }
     cout << "\n\n";
 
-    cout << "--- Replace the contents of the list ---\n";
+    cout << "--- Replace the contents of the list ---\n\n";
 
     // replace the contents of the list
     theList.clear();
@@ -286,26 +288,28 @@ int main(void)
     theList.moveToStart();
     for (i = 0; i < theList.length(); ++i)
     {
-        cout << theList.getValue() << " ";
+        cout << theList.getValue() << "  ";
 
         theList.next();
     }
-    cout << "\n";
+    cout << "\n\n";
 
     cout << "Removing two elements at the specified position:\n";
 
     // remove two elements at the specified position
     theList.moveToPos(5);
-    cout << theList.currPos() << "\n";
+    cout << theList.currPos() << "\n\n";
 
     theList.remove();
     theList.remove();
+    
+    cout << "Displaying the list after removing two elements at the specified position:\n";
 
     // display the contents of the list
     theList.moveToStart();
     for (i = 0; i < theList.length(); ++i)
     {
-        cout << theList.getValue() << " ";
+        cout << theList.getValue() << "  ";
 
         theList.next();
     }
