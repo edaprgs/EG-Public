@@ -148,7 +148,6 @@ public:
     // Return the current element
     E & getValue() const
     {
-        assert(curr->nextPtr != nullptr);
         return curr->nextPtr->theElement;
     }
 
