@@ -292,32 +292,115 @@ template <class T> void preorder(BinNode<T>* root)
 }
 
 
-
-/*
-Implement the following missing methods and functions here. Use
+/*Implement the following missing methods and functions here. Use
 assertions as necessary to ensure the correct operation of this program.
 All memory allocations should be checked with assertions and all
-discarded memory must be properly deallocated.
+discarded memory must be properly deallocated. */
 
 // implementation of method that tests if value is in the collection
 template <class T> int BSTree<T>::includes(T &val) const
+{
+    BinNode<T> *current = root;
+
+    // Keep searching until the value is found or we reach a leaf node
+    while(current != NULL) {
+        if(val == current->element) {
+            // Value was found
+            return 1;
+        }
+        else if(val < current->element) {
+            // Search the left subtree
+            current = current->left;
+        }
+        else {
+            // Search the right subtree
+            current = current->right;
+        }
+    }
+
+    // Value was not found
+    return 0;
+}
 
 // implementation of method that inserts a value into the tree
 template <class T> void BSTree<T>::insert(T &val)
+{  
+    // to be implemented
+}
 
 // implementation of method that removes a value from the tree
 template <class T> T BSTree<T>::remove(T &val)
+{
+    // to be implemented
+}
 
 // implementation of the inorder traversal function
 template <class T> void inorder(BinNode<T>* root)
+{
+     if (root == NULL)
+     {
+         return;
+     }
+    
+    // visit the left subtree
+    inorder(root->left);
+    
+    // visit the root node
+    visit(root);
+    
+    // visit the right subtree
+    inorder(root->right);
+}
 
 // implementation of the postorder traversal function
 template <class T> void postorder(BinNode<T>* root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    
+    // visit the left subtree
+    postorder(root->left);
+    
+    // visit the right subtree
+    postorder(root->right);
+
+    visit(root);
+}
 
 // implementation of the levelorder traversal function
 template <class T> void levelorder(BinNode<T> *root)
-*/
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    
+    // a Queue to store the nodes at each level
+    queue<BinNode<T>*> q;
+    q.push(root);
 
+    while(!q.empty())
+    {
+        BinNode<T> *current = q.front();
+        q.pop();
+        
+        // visit the current node
+        visit(current);
+        
+        // add the children of the current node to the queue
+        if(current->left != NULL)
+        {
+            q.push(current->left);
+        }
+        
+        if(current->right != NULL)
+        {
+            q.push(current->right);
+        }
+    }
+}
 
 
 /*
