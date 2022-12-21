@@ -1,9 +1,7 @@
 /* Eda Grace J. Paragoso - CCC-CS2A */
 
-/*
-CCC121 Laboratory Exercise No. 2
-Due: December 18, 2022 (Sunday) at 11:55PM
-*/
+/* CCC121 Laboratory Exercise No. 2
+Due: December 18, 2022 (Sunday) at 11:55PM */
 
 #include <iostream>
 #include <queue>
@@ -11,10 +9,8 @@ Due: December 18, 2022 (Sunday) at 11:55PM
 
 using namespace std;
 
-/*
-The structure to be used for representing a binary tree node. This struct
-declaration should not be modified in any way.
-*/
+/* The structure to be used for representing a binary tree node. This struct
+declaration should not be modified in any way. */
 template <class T> struct BinNode
 {
     T element;
@@ -63,11 +59,10 @@ template <class T> void postorder(BinNode<T>* root);
 // levelorder traversal
 template <class T> void levelorder(BinNode<T> *root);
 
-//
 // class BSTree
-//   collection using binary search tree designed for fast insertion,
-//   test and removal operations
-//
+// collection using binary search tree designed for fast insertion,
+// test and removal operations
+
 template <class T> class BSTree
 {
 public:
@@ -273,7 +268,6 @@ template <class T> BinNode<T> *BSTree<T>::copy(BinNode<T> *root)
 template <class T> void visit(BinNode<T>* root)
 {
     // visit routine for binary tree node
-
     // just display the value of the element
     cout << root->element << " ";
 }
@@ -308,7 +302,7 @@ template <class T> int BSTree<T>::includes(T &val) const
             // Value was found
             return 1;
         }
-        else if(val < current->element) {
+        else if(val <= current->element) {
             // Search the left subtree
             current = current->left;
         }
@@ -324,14 +318,65 @@ template <class T> int BSTree<T>::includes(T &val) const
 
 // implementation of method that inserts a value into the tree
 template <class T> void BSTree<T>::insert(T &val)
-{  
-    // to be implemented
+{
+    // create a new node with the given value
+    BinNode<T> *newNode = makeBinNode<T>(val,NULL,NULL);
+
+    // find the correct position in the tree for the new node
+    BinNode<T> *current = root;
+    BinNode<T> *parent = NULL;
+
+    while(current != NULL) {
+        parent = current;
+    if (val <= current->element) {
+        current = current->left;
+    } else {
+        current = current->right;
+      }
+    }
+
+    if(parent == NULL) {
+        root = newNode;
+    }
+    else if (val <= parent->element) {
+        parent->left = newNode;
+    } else {
+        parent->right = newNode;
+      }
+    nodecount++;
 }
 
 // implementation of method that removes a value from the tree
 template <class T> T BSTree<T>::remove(T &val)
 {
-    // to be implemented
+  // find the node that contains the value
+  BinNode<T> *current = root;
+  BinNode<T> *parent = NULL;
+
+  while (current != NULL && current->element != val) {
+    parent = current;
+    if (val <= current->element) {
+      current = current->left;
+    } else {
+      current = current->right;
+    }
+  }
+
+  // use removeTop to delete the node and update nodecount
+  BinNode<T> *temp = removeTop(current);
+  if (parent == NULL) {
+    root = temp;
+  } else if (parent->left == current) {
+    parent->left = temp;
+  } else {
+    parent->right = temp;
+  }
+
+  T element = current->element;
+
+  delete current;
+  nodecount--;
+  return element;
 }
 
 // implementation of the inorder traversal function
@@ -341,13 +386,13 @@ template <class T> void inorder(BinNode<T>* root)
      {
          return;
      }
-    
+
     // visit the left subtree
     inorder(root->left);
-    
+
     // visit the root node
     visit(root);
-    
+
     // visit the right subtree
     inorder(root->right);
 }
@@ -359,10 +404,10 @@ template <class T> void postorder(BinNode<T>* root)
     {
         return;
     }
-    
+
     // visit the left subtree
     postorder(root->left);
-    
+
     // visit the right subtree
     postorder(root->right);
 
@@ -376,7 +421,7 @@ template <class T> void levelorder(BinNode<T> *root)
     {
         return;
     }
-    
+
     // a Queue to store the nodes at each level
     queue<BinNode<T>*> q;
     q.push(root);
@@ -385,16 +430,16 @@ template <class T> void levelorder(BinNode<T> *root)
     {
         BinNode<T> *current = q.front();
         q.pop();
-        
+
         // visit the current node
         visit(current);
-        
+
         // add the children of the current node to the queue
         if(current->left != NULL)
         {
             q.push(current->left);
         }
-        
+
         if(current->right != NULL)
         {
             q.push(current->right);
