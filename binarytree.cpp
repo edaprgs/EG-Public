@@ -330,9 +330,10 @@ template <class T> void BSTree<T>::insert(T &val)
         parent = current;
     if (val <= current->element) {
         current = current->left;
-    } else {
-        current = current->right;
-      }
+    }
+        else {
+            current = current->right;
+        }
     }
 
     if(parent == NULL) {
@@ -340,9 +341,11 @@ template <class T> void BSTree<T>::insert(T &val)
     }
     else if (val <= parent->element) {
         parent->left = newNode;
-    } else {
+    }
+    else {
         parent->right = newNode;
-      }
+    }
+
     nodecount++;
 }
 
@@ -382,8 +385,7 @@ template <class T> T BSTree<T>::remove(T &val)
 // implementation of the inorder traversal function
 template <class T> void inorder(BinNode<T>* root)
 {
-     if (root == NULL)
-     {
+     if (root == NULL) {
          return;
      }
 
@@ -400,8 +402,7 @@ template <class T> void inorder(BinNode<T>* root)
 // implementation of the postorder traversal function
 template <class T> void postorder(BinNode<T>* root)
 {
-    if (root == NULL)
-    {
+    if (root == NULL) {
         return;
     }
 
@@ -417,8 +418,7 @@ template <class T> void postorder(BinNode<T>* root)
 // implementation of the levelorder traversal function
 template <class T> void levelorder(BinNode<T> *root)
 {
-    if(root == NULL)
-    {
+    if(root == NULL) {
         return;
     }
 
@@ -435,13 +435,11 @@ template <class T> void levelorder(BinNode<T> *root)
         visit(current);
 
         // add the children of the current node to the queue
-        if(current->left != NULL)
-        {
+        if(current->left != NULL) {
             q.push(current->left);
         }
 
-        if(current->right != NULL)
-        {
+        if(current->right != NULL) {
             q.push(current->right);
         }
     }
